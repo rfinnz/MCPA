@@ -51,7 +51,7 @@ v_y = v*sin(InitialAngle);
 %(d) 
 
 probability = 0.05;
-
+ vdrift = 0;    %initial velocity drift is 0
 %(c)
 
 for time = 0:dt:finaltime
@@ -63,7 +63,7 @@ random= randi([1 100], 1, 1);
     plot(electron2(1,1),electron2(1,2),'ob');
     hold on
     axis([0 1000 0 1000]);
-    title(['The velocity of the electron is ', num2str(v), ' m/s'])
+    title(['The velocity of the electron is ', num2str(vdrift), ' m/s'])
     
 if random <=5
     
@@ -80,7 +80,10 @@ end
     v_y = v_y + dvy;
     electron(1,2) = electron(1,2) + v_y*dt;
     electron2(1,2) = electron2(1,2) + v_y*dt;
-    v= sqrt((v_x)^2+(v_y)^2);
+   
+    if time > 0   
+    vdrift= (vdrift + sqrt((v_x)^2+(v_y)^2))/time;
+    end
     
     hold on
     pause(0.5);
